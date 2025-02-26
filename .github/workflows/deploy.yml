@@ -18,6 +18,7 @@ jobs:
         with:
           service-account-key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: my-first-project-85838
+          export_default_credentials: true
 
 
 
