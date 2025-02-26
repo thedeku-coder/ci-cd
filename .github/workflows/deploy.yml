@@ -18,7 +18,8 @@ jobs:
         with:
           credentials: ${{ secrets.GCP_CREDENTIALS }}
           project_id: my-first-project-85838
-          
+
+
 
         
 
@@ -30,7 +31,7 @@ jobs:
       
       - name: build image via gcp
         run: |
-          gcloud builds submit --tag gcr.io/my-first-project-85838/my-first-app
+          gcloud builds submit --tag gcr.io/my-first-project-85838/app_bucket.py
           gcloud run deploy my-first-app --image gcr.io/my-first-project-85838/my-first-app --platform managed --region us-central1 --allow-unauthenticated
         
       
