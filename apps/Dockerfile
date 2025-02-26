@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copier les fichiers nécessaires
 COPY requirements.txt requirements.txt
-COPY .  /app
+COPY .  /apps
 
 
 # Installer les dépendances
