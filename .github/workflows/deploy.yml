@@ -1,0 +1,33 @@
+name: deploy infra & apps
+
+on:
+  push:
+    branches:
+     - main
+     
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: authenticate to gcp
+        run: |
+          echo "${{ secrets.GCP_CREDENTIALS }}" > /tmp/gcp_sa_key.json
+          gcloud auth activate-service-account --key-file=/tmp/gcp_sa_key.json
+          gcloud config set project my-first-project-85838 
+
+      - name: terraform init
+        run: terraform init
+      
+      - name: terraform apply
+        run: terraform apply -auto-approve
+      
+      - name: build image via gcp
+        run: |
+          gcloud builds submit --tag gcr.io/my-first-project-85838/my-first-app
+          gcloud run deploy my-first-app --image gcr.io/my-first-project-85838/my-first-app --platform managed --region us-central1 --allow-unauthenticated
+        
+      
